@@ -35,7 +35,7 @@ jobs:
           context: ./
           push: true
           dockerfile: ./Dockerfile   # Specify the path to your Dockerfile here
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/webacademy:latest
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/webacademy:arm64
   deploy:
     needs: lint
     name: Deploy on my server
@@ -58,8 +58,8 @@ jobs:
 
       - name: Remove old container and run new
         id: remove-old-container
-        run: sshpass -p ${{secrets.PASSWORD}} ssh -o StrictHostKeyChecking=accept-new ${{secrets.USERNAME}}@${{secrets.HOST}} -p 22 'docker rm -f webacad && docker run -d --name webacad -p ${{secrets.LOCAL_HOST}}:8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/webacademy:latest'
+        run: sshpass -p ${{secrets.PASSWORD}} ssh -o StrictHostKeyChecking=accept-new ${{secrets.USERNAME}}@${{secrets.HOST}} -p 22 'docker rm -f webacad && docker run -d --name webacad -p ${{secrets.LOCAL_HOST}}:8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/webacademy:arm64'
 
       - name: IF fail to remove old container
         if: failure() && steps.remove-old-container.outcome == 'failure'
-        run: sshpass -p ${{secrets.PASSWORD}} ssh -o StrictHostKeyChecking=accept-new ${{secrets.USERNAME}}@${{secrets.HOST}} -p 22 'docker run -d --name webacad -p ${{secrets.LOCAL_HOST}}:8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/webacademy:latest'
+        run: sshpass -p ${{secrets.PASSWORD}} ssh -o StrictHostKeyChecking=accept-new ${{secrets.USERNAME}}@${{secrets.HOST}} -p 22 'docker run -d --name webacad -p ${{secrets.LOCAL_HOST}}:8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/webacademy:arm64'
