@@ -56,5 +56,10 @@ jobs:
       - name: Configure ssh
         run: echo "Host ssh.rcchome.com.br" >> ~/.ssh/config && echo "ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h" >> ~/.ssh/config
 
-      - name: executing remote ssh commands using password
+      - name: Remove old container and run new
+        id: remove-old-container
+        run: sshpass -p ${{secrets.PASSWORD}} ssh -o StrictHostKeyChecking=accept-new ${{secrets.USERNAME}}@${{secrets.HOST}} -p 22 'docker rm -f webacad && docker run -d --name webacad -p ${{secrets.LOCAL_HOST}}:8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/webacademy:latest'
+
+      - name: IF fail to remove old container
+        if: failure() && steps.remove-old-container.outcome == 'failure'
         run: sshpass -p ${{secrets.PASSWORD}} ssh -o StrictHostKeyChecking=accept-new ${{secrets.USERNAME}}@${{secrets.HOST}} -p 22 'docker run -d --name webacad -p ${{secrets.LOCAL_HOST}}:8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/webacademy:latest'
