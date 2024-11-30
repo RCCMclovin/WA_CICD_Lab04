@@ -37,7 +37,7 @@ jobs:
           dockerfile: ./Dockerfile   # Specify the path to your Dockerfile here
           tags: ${{secrets.DOCKERHUB_USERNAME}}/webacademy:arm64
   deploy:
-    needs: lint
+    needs: build_docker
     name: Deploy on my server
     runs-on: ubuntu-latest
     steps:
