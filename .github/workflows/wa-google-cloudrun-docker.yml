@@ -57,4 +57,4 @@ jobs:
         run: echo "Host ssh.rcchome.com.br" >> ~/.ssh/config && echo "ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h" >> ~/.ssh/config
 
       - name: executing remote ssh commands using password
-        run: sshpass -p ${{secrets.PASSWORD}} ssh -o StrictHostKeyChecking=accept-new ${{secrets.USERNAME}}}@${{secrets.HOST}} -p 22 'docker run -d --name webacad -p ${{secrets.LOCAL_HOST}}:8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/webacademy:latest'
+        run: sshpass -p ${{secrets.PASSWORD}} ssh -o StrictHostKeyChecking=accept-new ${{secrets.USERNAME}}@${{secrets.HOST}} -p 22 'docker run -d --name webacad -p ${{secrets.LOCAL_HOST}}:8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/webacademy:latest'
