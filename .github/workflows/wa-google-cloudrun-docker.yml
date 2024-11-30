@@ -60,7 +60,7 @@ jobs:
         run: echo "Host ssh.rcchome.com.br" >> ~/.ssh/config && echo "ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h" >> ~/.ssh/config
 
       - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.HOST }}
           username: linuxserver.io
