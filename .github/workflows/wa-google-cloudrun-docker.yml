@@ -40,9 +40,6 @@ jobs:
     needs: lint
     name: Deploy on my server
     runs-on: ubuntu-latest
-    environment: wagcp_deploy
-    env:
-      IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/webacademy:latest
     steps:
       # Git checkout
       - name: Checkout
@@ -66,4 +63,4 @@ jobs:
           username: linuxserver.io
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: docker run -d --name webacad -p ${{secrets.LOCAL_HOST}}:8080:8080 $IMAGE_NAME 
+          script: docker run -d --name webacad -p ${{secrets.LOCAL_HOST}}:8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/webacademy:latest
